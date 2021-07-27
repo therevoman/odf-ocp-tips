@@ -25,14 +25,6 @@ spec:
     cephObjectStores: {}
   monDataDirHostPath: /var/lib/rook
   nodeTopologies: {}
-  resources:
-    osd:
-      limits:
-        cpu: "5"
-        memory: 8Gi
-      requests:
-        cpu: "5"
-        memory: 8Gi
   storageDeviceSets:
   - config: {}
     count: 3
@@ -51,5 +43,11 @@ spec:
     placement: {}
     preparePlacement: {}
     replica: 1
-    resources: {}
+    resources:
+      limits:
+        cpu: "5"
+        memory: 8Gi
+      requests:
+        cpu: "5"
+        memory: 8Gi
   version: 4.7.0

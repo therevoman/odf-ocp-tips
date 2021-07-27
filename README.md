@@ -114,10 +114,16 @@ oc get machines -o wide -w
 ```
 
 ## FAQ
-- How do I change the requests/limits for the OSD?
+- How do I change the CPU requests/limits for the OSD?
 ```bash
 oc patch StorageCluster -n openshift-storage ocs-storagecluster --type='json' -p='[{"op": "replace", "path": "/spec/storageDeviceSets/0/resource
 s/limits/cpu", "value": "2" },{"op": "replace", "path": "/spec/storageDeviceSets/0/resources/requests/cpu", "value": "2"}]' 
+```
+
+- How do I change the Memory requests/limits for the OSD?
+```bash
+oc patch StorageCluster -n openshift-storage ocs-storagecluster --type='json' -p='[{"op": "replace", "path": "/spec/storageDeviceSets/0/resource
+s/limits/memory", "value": "5Gi" },{"op": "replace", "path": "/spec/storageDeviceSets/0/resources/requests/memory", "value": "5Gi"}]' 
 ```
 
 

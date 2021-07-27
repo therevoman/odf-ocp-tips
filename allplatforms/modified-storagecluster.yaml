@@ -27,13 +27,6 @@ spec:
       requests:
         cpu: 500m
         memory: "2Gi"
-    osd:
-      limits:
-        cpu: 500m
-        memory: "4Gi"
-      requests:
-        cpu: 500m
-        memory: "4Gi"
     mgr:
       limits:
         cpu: 500m
@@ -55,6 +48,7 @@ spec:
       requests:
         cpu: 500m
         memory: "2Gi"
+    # osd: changed in the storageDeviceSets
   monDataDirHostPath: /var/lib/rook
   storageDeviceSets:
   - count: 3   # <-- modify count to to desired value
