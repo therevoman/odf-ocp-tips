@@ -92,26 +92,34 @@ oc get StorageCluster ocs-storagecluster -n openshift-storage -w
 
 
 ## Quick Steps for AWS:
-1) Modify the 3 yaml files to match your region and node type.
+1. Modify the 3 yaml files to match your region and node type.
 ```bash
 vim aws/infra-machine-set-us-east-2?.yaml
 ```
-2) Apply the MachineSet configuration to your cluster
+2. Apply the MachineSet configuration to your cluster
 ```bash
 oc create -f aws/infra-machine-set-us-east-2a.yaml
 oc create -f aws/infra-machine-set-us-east-2b.yaml
 oc create -f aws/infra-machine-set-us-east-2c.yaml
 ```
-3) Scale to the number of nodes desired (my case its 3)
+3. Scale to the number of nodes desired (my case its 3)
 ```bash
 oc scale machineset --replicas=1 <your machineset name>
 ```
-4) Wait for the nodes to show up
+4. Wait for the nodes to show up
 ```bash
 oc get nodes -w
 # or 
 oc get machines -o wide -w
 ```
+
+## FAQ
+- How do I change the requests/limits for the OSD?
+```bash
+oc patch StorageCluster -n openshift-storage ocs-storagecluster --type='json' -p='[{"op": "replace", "path": "/spec/storageDeviceSets/0/resource
+s/limits/cpu", "value": "2" },{"op": "replace", "path": "/spec/storageDeviceSets/0/resources/requests/cpu", "value": "2"}]' 
+```
+
 
 ## Roadmap
 This is current for OCP 4.7 and ODF 4.7 and specifically targets an AWS IPI style installation.  Adaptations are welcome but not currently planned
