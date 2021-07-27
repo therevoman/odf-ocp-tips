@@ -1,0 +1,59 @@
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineSet
+metadata:
+  labels:
+    machine.openshift.io/cluster-api-cluster: cg-cmdng
+  name: cg-cmdng-infra-us-east-2b 
+  namespace: openshift-machine-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      machine.openshift.io/cluster-api-cluster: cg-cmdng
+      machine.openshift.io/cluster-api-machineset: cg-cmdng-infra-us-east-2b 
+  template:
+    metadata:
+      labels:
+        machine.openshift.io/cluster-api-cluster: cg-cmdng
+        machine.openshift.io/cluster-api-machine-role: infra 
+        machine.openshift.io/cluster-api-machine-type: infra 
+        machine.openshift.io/cluster-api-machineset: cg-cmdng-infra-us-east-2b 
+    spec:
+      metadata:
+        labels:
+          node-role.kubernetes.io/infra: "" 
+      providerSpec:
+        value:
+          ami:
+            id: ami-0ddab715d6b88a315
+          apiVersion: awsproviderconfig.openshift.io/v1beta1
+          blockDevices:
+            - ebs:
+                iops: 0
+                volumeSize: 120
+                volumeType: gp2
+          credentialsSecret:
+            name: aws-cloud-credentials
+          deviceIndex: 0
+          iamInstanceProfile:
+            id: cg-cmdng-worker-profile 
+          instanceType: i3en.3xlarge
+          kind: AWSMachineProviderConfig
+          placement:
+            availabilityZone: us-east-2b
+            region: us-east-2
+          securityGroups:
+            - filters:
+                - name: tag:Name
+                  values:
+                    - cg-cmdng-worker-sg 
+          subnet:
+            filters:
+              - name: tag:Name
+                values:
+                  - cg-cmdng-private-us-east-2b
+          tags:
+            - name: kubernetes.io/cluster/cg-cmdng
+              value: owned
+          userDataSecret:
+            name: worker-user-data
